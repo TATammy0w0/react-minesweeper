@@ -1,0 +1,13 @@
+.board {
+  display: inline-block;
+}
+
+.row {
+  display: flex;
+}
+
+.cell {
+  height: 16px;
+  width: 16px;
+  border: 1px solid grey;
+}
