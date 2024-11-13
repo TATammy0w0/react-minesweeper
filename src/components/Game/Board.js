@@ -22,44 +22,40 @@ const createBoard = (rows, cols, mines) => {
     }
   }
 
-  // for (let row = 0; row < rows; row++) {
-  //   for (let col = 0; col < cols; col++) {
-  //     if (!board[row][col].isMine) {
-  //       board[row][col].adjacentMines = countAdjacentMines(board, row, col);
-  //     }
-  //   }
-  // }
-  console.log("rows", rows);
-  console.log("cols", cols);
-  console.log("test", Array.from({ length: rows }));
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (!board[row][col].isMine) {
+        board[row][col].adjacentMines = countAdjacentMines(board, row, col);
+      }
+    }
+  }
+
   return board;
 };
 
-const revealCell = (board, row, col) => {
-  const cell = board[row][col];
-  if (cell.isRevealed || cell.isFlagged) return;
-
-  cell.isRevealed = true;
-
-  if (cell.adjacentMines === 0) {
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ];
-    directions.forEach(([dx, dy]) => {
-      const newRow = row + dx;
-      const newCol = col + dy;
-      if (board[newRow] && board[newRow][newCol]) {
-        revealCell(board, newRow, newCol);
-      }
-    });
-  }
+const countAdjacentMines = (board, row, col) => {
+  const directions = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
+  return directions.reduce((count, [dx, dy]) => {
+    const newRow = row + dx;
+    const newCol = col + dy;
+    if (
+      board[newRow] &&
+      board[newRow][newCol] &&
+      board[newRow][newCol].isMine
+    ) {
+      count++;
+    }
+    return count;
+  }, 0);
 };
 
 export default function Board({ rows, cols, mines }) {
@@ -82,6 +78,71 @@ export default function Board({ rows, cols, mines }) {
     setBoard(createBoard(rows, cols, mines));
   }, [rows, cols, mines]);
 
+  const handleCellClick = (row, col) => {
+    // if (gameOver || board[row][col].isFlagged || board[row][col].isRevealed)
+    //   return;
+
+    const newBoard = board.slice();
+    newBoard[row][col].isRevealed = true;
+
+    console.log(newBoard[row][col].adjacentMines);
+
+    if (newBoard[row][col].isMine) {
+      revealBoard(newBoard);
+      //setGameOver(true);
+    } else {
+      setBoard(newBoard);
+      //checkWin(newBoard);
+    }
+  };
+
+  const handleCellHover = (row, col) => {
+    const newBoard = board.slice();
+    newBoard[row][col].isHovered = true;
+    setBoard(newBoard);
+  };
+
+  const handleCellHoverOut = (row, col) => {
+    const newBoard = board.slice();
+    newBoard[row][col].isHovered = false;
+    setBoard(newBoard);
+  };
+
+  const revealCell = (board, row, col) => {
+    const cell = board[row][col];
+    if (cell.isRevealed || cell.isFlagged) return;
+
+    cell.isRevealed = true;
+
+    if (cell.adjacentMines === 0) {
+      const directions = [
+        [-1, -1],
+        [-1, 0],
+        [-1, 1],
+        [0, -1],
+        [0, 1],
+        [1, -1],
+        [1, 0],
+        [1, 1],
+      ];
+      directions.forEach(([dx, dy]) => {
+        const newRow = row + dx;
+        const newCol = col + dy;
+        if (board[newRow] && board[newRow][newCol]) {
+          revealCell(board, newRow, newCol);
+        }
+      });
+    }
+  };
+
+  const revealBoard = (board) => {
+    for (const row of board) {
+      for (const cell of row) {
+        cell.isRevealed = true;
+      }
+    }
+  };
+
   return (
     <div>
       {/* className="cell" onClick={toggleSelection}
@@ -93,7 +154,9 @@ export default function Board({ rows, cols, mines }) {
               <Cell
                 // key={cellIndex}
                 cell={cell}
-                //onClick={() => handleCellClick(rowIndex, cellIndex)}
+                onHover={() => handleCellHover(rowIndex, cellIndex)}
+                onHoverOut={() => handleCellHoverOut(rowIndex, cellIndex)}
+                onClick={() => handleCellClick(rowIndex, cellIndex)}
                 //onRightClick={() => handleRightClick(rowIndex, cellIndex)}
               />
             ))}

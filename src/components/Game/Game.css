@@ -7,7 +7,31 @@
 }
 
 .cell {
-  height: 16px;
-  width: 16px;
+  height: 20px;
+  width: 20px;
   border: 1px solid grey;
+}
+
+.cell.unselected {
+  background-color: #b5c7d3;
+}
+
+.cell.selected-safe {
+  background-color: #d1f5d3;
+  color: #1e4620;
+}
+
+.cell.selected-bomb {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.cell.hover {
+  filter: brightness(90%);
+}
+
+.cell.selected-safe:hover,
+.cell.selected-bomb:hover,
+.cell.unselected:hover {
+  cursor: pointer;
 }
