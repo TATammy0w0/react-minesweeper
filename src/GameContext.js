@@ -3,7 +3,7 @@ import React, { createContext, useState, useEffect } from "react";
 export const GameContext = createContext();
 
 export const GameProvider = ({ children, size, mines, difficulty }) => {
-  const [board, setBoard] = useState([]);
+  const [board, setBoard] = useState(createBoard(size, size, mines));
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [firstClick, setFirstClick] = useState(true);
@@ -33,7 +33,7 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
 
     const newBoard = [...board];
 
-    // Handle the first click to ensure it's safe
+    // EXTRA CREDITS: safe first turn
     if (firstClick) {
       setFirstClick(false);
       if (newBoard[row][col].isMine) {
@@ -44,16 +44,15 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
     if (newBoard[row][col].isMine) {
       revealBoard(newBoard);
       setGameOver(true);
-      //saveGame();
       return;
     }
 
     revealCell(newBoard, row, col);
     setBoard(newBoard);
     checkWin(newBoard);
-    //saveGame();
   };
 
+  // EXTRA CREDITS: safe first turn
   const swapMineWithSafeCell = (board, mineRow, mineCol) => {
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -70,6 +69,7 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
     }
   };
 
+  // EXTRA CREDITS: safe first turn
   const updateAdjacentMines = (board) => {
     for (let row = 0; row < board.length; row++) {
       for (let col = 0; col < board[row].length; col++) {
@@ -80,6 +80,7 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
     }
   };
 
+  // EXTRA CREDITS: flag bomb
   const handleRightClick = (row, col) => {
     if (gameOver || gameWon || board[row][col].isRevealed) return;
 
@@ -87,7 +88,6 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
     newBoard[row][col].isFlagged = !newBoard[row][col].isFlagged;
     setBoard(newBoard);
     setMineCount((prev) => prev + (newBoard[row][col].isFlagged ? -1 : 1));
-    //saveGame();
   };
 
   const resetGame = () => {
@@ -96,7 +96,6 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
     setGameWon(false);
     setMineCount(mines);
     setFirstClick(true);
-    //localStorage.removeItem("minesweeperGame");
   };
 
   const handleCellHover = (row, col) => {
@@ -193,23 +192,7 @@ const revealCell = (board, row, col) => {
   cell.isRevealed = true;
 
   if (cell.adjacentMines === 0) {
-    const directions = [
-      [-1, -1],
-      [-1, 0],
-      [-1, 1],
-      [0, -1],
-      [0, 1],
-      [1, -1],
-      [1, 0],
-      [1, 1],
-    ];
-    directions.forEach(([dx, dy]) => {
-      const newRow = row + dx;
-      const newCol = col + dy;
-      if (board[newRow] && board[newRow][newCol]) {
-        revealCell(board, newRow, newCol);
-      }
-    });
+    autoClear(board, row, col);
   }
 };
 
@@ -219,4 +202,32 @@ const revealBoard = (board) => {
       cell.isRevealed = true;
     }
   }
+};
+
+// EXTRA CREDITS: auto clear
+const autoClear = (board, row, col) => {
+  const directions = [
+    [-1, -1],
+    [-1, 0],
+    [-1, 1],
+    [0, -1],
+    [0, 1],
+    [1, -1],
+    [1, 0],
+    [1, 1],
+  ];
+
+  directions.forEach(([dx, dy]) => {
+    const newRow = row + dx;
+    const newCol = col + dy;
+
+    // check if within bounds and not already revealed
+    if (
+      board[newRow] &&
+      board[newRow][newCol] &&
+      !board[newRow][newCol].isRevealed
+    ) {
+      revealCell(board, newRow, newCol);
+    }
+  });
 };
