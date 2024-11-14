@@ -59,8 +59,8 @@
 /* Mobile view: make hard cells smaller */
 @media (max-width: 700px) {
   .hard-mode .cell {
-    width: 8px;
-    height: 8px;
-    font-size: 10px;
+    width: 14px;
+    height: 14px;
+    font-size: 12px;
   }
 }
