@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, { createContext, useState } from "react";
 
 export const GameContext = createContext();
 
@@ -8,10 +8,6 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
   const [gameWon, setGameWon] = useState(false);
   const [firstClick, setFirstClick] = useState(true);
   const [mineCount, setMineCount] = useState(mines);
-
-  useEffect(() => {
-    resetGame();
-  }, []);
 
   const checkWin = (board) => {
     const won = board.every((row) =>
