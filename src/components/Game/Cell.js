@@ -16,7 +16,7 @@ export default function Cell({
       case 2:
         return "green";
       case 3:
-        return "#f5b133"; // bright orange
+        return "#fca605"; // bright orange
       case 4:
         return "purple";
       default:

@@ -20,12 +20,12 @@
 }
 
 .cell.unselected {
-  background-color: rgb(115, 115, 115);
+  background-color: rgb(145, 145, 145);
   cursor: pointer;
 }
 
 .cell.selected-safe {
-  background-color: rgb(219, 219, 219);
+  background-color: rgb(226, 226, 226);
   color: rgb(207, 255, 162);
 }
 
@@ -35,7 +35,7 @@
 
 .cell.unselected:hover {
   cursor: pointer;
-  filter: brightness(60%);
+  filter: brightness(80%);
 }
 
 .cell.selected-safe:hover,
@@ -52,15 +52,16 @@
 }
 
 .game-message {
-  padding-bottom: 4px;
+  margin-top: 6px;
+  margin-bottom: 4px;
   height: 10px;
 }
 
-/* Mobile view: make hard cells smaller */
+/* Mobile view: make hard mode cells smaller */
 @media (max-width: 700px) {
   .hard-mode .cell {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     font-size: 12px;
   }
 }
