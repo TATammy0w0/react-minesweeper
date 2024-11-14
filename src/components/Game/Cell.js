@@ -1,5 +1,5 @@
 import "./Game.css";
-import React, { useContext, useState } from "react";
+import React from "react";
 
 export default function Cell({
   cell,
@@ -8,6 +8,22 @@ export default function Cell({
   onHover,
   onHoverOut,
 }) {
+  // change text color based on the number of adjacent mines
+  const getTextColor = (count) => {
+    switch (count) {
+      case 1:
+        return "blue";
+      case 2:
+        return "green";
+      case 3:
+        return "#f5b133"; // bright orange
+      case 4:
+        return "purple";
+      default:
+        return "red";
+    }
+  };
+
   return (
     <div
       className={`cell ${
@@ -24,11 +40,20 @@ export default function Cell({
         e.preventDefault(); // avoid opening up the default context menu
         onRightClick();
       }}
+      // Apply the color style only if the cell is revealed and has adjacent mines
+      style={{
+        color:
+          cell.isRevealed && cell.adjacentMines > 0
+            ? getTextColor(cell.adjacentMines)
+            : "black",
+      }}
     >
       {cell.isRevealed
         ? cell.isMine
-          ? "X"
-          : cell.adjacentMines
+          ? "💣"
+          : cell.adjacentMines > 0
+          ? cell.adjacentMines
+          : "" // Show empty string if adjacentMines is 0
         : cell.isFlagged
         ? "🚩"
         : ""}

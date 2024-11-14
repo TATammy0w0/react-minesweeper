@@ -14,32 +14,34 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 21px;
-  font-family: "Times";
+  font-size: 20px;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: 600;
 }
 
 .cell.unselected {
-  background-color: rgb(95, 95, 95);
+  background-color: rgb(115, 115, 115);
+  cursor: pointer;
 }
 
 .cell.selected-safe {
-  background-color: rgb(162, 162, 162);
+  background-color: rgb(219, 219, 219);
   color: rgb(207, 255, 162);
 }
 
 .cell.selected-bomb {
-  background-color: lightpink;
-  color: red;
+  background-color: rgb(222, 67, 90);
 }
 
-.cell.hover {
+.cell.unselected:hover {
+  cursor: pointer;
   filter: brightness(60%);
 }
 
 .cell.selected-safe:hover,
-.cell.selected-bomb:hover,
-.cell.unselected:hover {
-  cursor: pointer;
+.cell.selected-bomb:hover {
+  cursor: default;
+  filter: none;
 }
 
 .game-content-group {
