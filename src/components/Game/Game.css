@@ -1,5 +1,7 @@
 .board {
   display: inline-block;
+  margin: 8px;
+  margin-bottom: 16px;
 }
 
 .row {

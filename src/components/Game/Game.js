@@ -30,7 +30,7 @@ function Game() {
         </div>
         <p>Mines Left: {mineCount}</p>
 
-        <div className={`board ${difficulty === "hard" ? "hard-mode" : ""}`}>
+        <div className={`board ${difficulty}-mode`}>
           {board.map((row, rowIndex) => (
             <div key={rowIndex} className="row">
               {row.map((cell, cellIndex) => (
