@@ -32,6 +32,15 @@ export const GameProvider = ({ children, size, mines }) => {
       return;
 
     const newBoard = [...board];
+
+    // Handle the first click to ensure it's safe
+    if (firstClick) {
+      setFirstClick(false);
+      if (newBoard[row][col].isMine) {
+        swapMineWithSafeCell(newBoard, row, col);
+      }
+    }
+
     if (newBoard[row][col].isMine) {
       revealBoard(newBoard);
       setGameOver(true);
@@ -43,6 +52,32 @@ export const GameProvider = ({ children, size, mines }) => {
     setBoard(newBoard);
     checkWin(newBoard);
     //saveGame();
+  };
+
+  const swapMineWithSafeCell = (board, mineRow, mineCol) => {
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (!board[row][col].isMine) {
+          // Swap mine with the first non-mine cell found
+          board[row][col].isMine = true;
+          board[mineRow][mineCol].isMine = false;
+
+          // Update adjacent mine counts after the swap
+          updateAdjacentMines(board);
+          return;
+        }
+      }
+    }
+  };
+
+  const updateAdjacentMines = (board) => {
+    for (let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if (!board[row][col].isMine) {
+          board[row][col].adjacentMines = countAdjacentMines(board, row, col);
+        }
+      }
+    }
   };
 
   const handleRightClick = (row, col) => {
