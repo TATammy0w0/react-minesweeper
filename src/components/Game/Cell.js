@@ -8,17 +8,6 @@ export default function Cell({
   onHover,
   onHoverOut,
 }) {
-  const [selected, setSelected] = useState(false);
-  const revealedState = { unclicked: 0, clicked: 1, flagged: 2 };
-  const boardState = { bomb: 0, empty: 1, number: 2 };
-
-  const [currentState, setCurrentState] = useState(0);
-  const state = { unselected: 0, selected_safe: 1, selected_bomb: 2 };
-
-  const toggleSelection = () => {
-    setSelected((selected) => !selected);
-  };
-
   return (
     <div
       className={`cell ${
@@ -31,8 +20,18 @@ export default function Cell({
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onHoverOut}
+      onContextMenu={(e) => {
+        e.preventDefault(); // avoid opening up the default context menu
+        onRightClick();
+      }}
     >
-      {cell.isRevealed ? (cell.isMine ? "X" : cell.adjacentMines) : ""}
+      {cell.isRevealed
+        ? cell.isMine
+          ? "X"
+          : cell.adjacentMines
+        : cell.isFlagged
+        ? "🚩"
+        : ""}
     </div>
   );
 }

@@ -4,64 +4,30 @@ import "./Game.css";
 import { GameContext } from "../../GameContext";
 
 function Game() {
-  const { board, setBoard, handleCellHover, handleCellHoverOut } =
-    useContext(GameContext);
-
-  const handleCellClick = (row, col) => {
-    // if (gameOver || board[row][col].isFlagged || board[row][col].isRevealed)
-    //   return;
-
-    const newBoard = board.slice();
-    newBoard[row][col].isRevealed = true;
-
-    console.log(newBoard[row][col].adjacentMines);
-
-    if (newBoard[row][col].isMine) {
-      revealBoard(newBoard);
-      //setGameOver(true);
-    } else {
-      setBoard(newBoard);
-      //checkWin(newBoard);
-    }
-  };
-
-  const revealCell = (board, row, col) => {
-    const cell = board[row][col];
-    if (cell.isRevealed || cell.isFlagged) return;
-
-    cell.isRevealed = true;
-
-    if (cell.adjacentMines === 0) {
-      const directions = [
-        [-1, -1],
-        [-1, 0],
-        [-1, 1],
-        [0, -1],
-        [0, 1],
-        [1, -1],
-        [1, 0],
-        [1, 1],
-      ];
-      directions.forEach(([dx, dy]) => {
-        const newRow = row + dx;
-        const newCol = col + dy;
-        if (board[newRow] && board[newRow][newCol]) {
-          revealCell(board, newRow, newCol);
-        }
-      });
-    }
-  };
-
-  const revealBoard = (board) => {
-    for (const row of board) {
-      for (const cell of row) {
-        cell.isRevealed = true;
-      }
-    }
-  };
+  const {
+    board,
+    handleCellClick,
+    handleRightClick,
+    handleCellHover,
+    handleCellHoverOut,
+    gameOver,
+    gameWon,
+    resetGame,
+    mineCount,
+  } = useContext(GameContext);
 
   return (
     <div>
+      <h1>Minesweeper</h1>
+      <p>
+        {gameOver
+          ? "Game over! You lost!"
+          : gameWon
+          ? "Game over! You won!"
+          : "Keep going!"}
+      </p>
+      <p>Mines Left: {mineCount}</p>
+      <button onClick={resetGame}>Reset</button>
       <div className="board">
         {board.map((row, rowIndex) => (
           <div key={rowIndex} className="row">
@@ -72,7 +38,7 @@ function Game() {
                 onHover={() => handleCellHover(rowIndex, cellIndex)}
                 onHoverOut={() => handleCellHoverOut(rowIndex, cellIndex)}
                 onClick={() => handleCellClick(rowIndex, cellIndex)}
-                //onRightClick={() => handleRightClick(rowIndex, cellIndex)}
+                onRightClick={() => handleRightClick(rowIndex, cellIndex)}
               />
             ))}
           </div>
