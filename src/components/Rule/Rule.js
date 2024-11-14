@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router-dom";
+import "./Rule.css";
+
 function Rule() {
+  const navigate = useNavigate();
   return (
-    <div>
-      <h1>Rule</h1>
+    <div className="rule-page">
+      <h1>Rules</h1>
 
       <p>
         Minesweeper rules are very simple. The board is divided into cells, with
@@ -12,6 +16,14 @@ function Rule() {
         using the right mouse button. To win a game of Minesweeper, all non-mine
         cells must be opened without opening a mine.
       </p>
+
+      <button
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Home
+      </button>
     </div>
   );
 }

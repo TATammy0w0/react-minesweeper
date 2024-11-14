@@ -87,7 +87,7 @@ export const GameProvider = ({ children, size, mines }) => {
     newBoard[row][col].isFlagged = !newBoard[row][col].isFlagged;
     setBoard(newBoard);
     setMineCount((prev) => prev + (newBoard[row][col].isFlagged ? -1 : 1));
-    //    saveGame();
+    //saveGame();
   };
 
   const resetGame = () => {
