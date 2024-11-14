@@ -1,8 +1,8 @@
 import Board from "./Board";
-function Game({ rows, cols, mines }) {
+function Game({ size, mines }) {
   return (
     <div>
-      <Board rows={rows} cols={cols} mines={mines} />
+      <Board rows={size} cols={size} mines={mines} />
     </div>
   );
 }

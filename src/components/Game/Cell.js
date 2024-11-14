@@ -28,13 +28,11 @@ export default function Cell({
             : "selected-safe"
           : "unselected"
       } ${cell.isHovered ? "hover" : ""}`}
-      //onClick={toggleSelection}
-      style={{ backgroundColor: selected ? "black" : "white" }}
       onClick={onClick}
       onMouseEnter={onHover}
       onMouseLeave={onHoverOut}
     >
-      {cell.isRevealed ? (cell.isMine ? "💣" : cell.adjacentMines) : ""}
+      {cell.isRevealed ? (cell.isMine ? "X" : cell.adjacentMines) : ""}
     </div>
   );
 }
