@@ -16,8 +16,11 @@ button {
   width: 120px;
   height: 40px;
   margin: 12px;
-  background-color: yellow;
+  background-color: rgb(58, 58, 58);
   border-radius: 6px;
+  border-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
 }
 
 button:hover {

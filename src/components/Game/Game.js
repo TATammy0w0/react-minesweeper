@@ -15,13 +15,16 @@ function Game() {
     gameWon,
     resetGame,
     mineCount,
+    difficulty,
   } = useContext(GameContext);
+
+  const dynamicLevel = (text) => text.toUpperCase();
 
   return (
     <div>
       <DifficultiesHeader />
       <div className="game-content-group">
-        <h1>Minesweeper</h1>
+        <h1>{dynamicLevel(difficulty)} MODE</h1>
         <div className="game-message">
           {gameOver ? "Game over :(" : gameWon ? "You won!" : ""}
         </div>

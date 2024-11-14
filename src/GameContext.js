@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 
 export const GameContext = createContext();
 
-export const GameProvider = ({ children, size, mines }) => {
+export const GameProvider = ({ children, size, mines, difficulty }) => {
   const [board, setBoard] = useState([]);
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
@@ -122,6 +122,7 @@ export const GameProvider = ({ children, size, mines }) => {
         gameWon,
         resetGame,
         mineCount,
+        difficulty,
       }}
     >
       {children}
