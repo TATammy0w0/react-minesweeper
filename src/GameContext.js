@@ -56,8 +56,6 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
           // Swap mine with the first non-mine cell found
           board[row][col].isMine = true;
           board[mineRow][mineCol].isMine = false;
-
-          // Update adjacent mine counts after the swap
           updateAdjacentMines(board);
           return;
         }
