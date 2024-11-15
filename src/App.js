@@ -13,7 +13,13 @@ function App() {
         <Route
           path="/game/easy"
           element={
-            <GameProvider key="easy" size={8} mines={10} difficulty="easy">
+            <GameProvider
+              key="easy"
+              rows={8}
+              cols={8}
+              mines={10}
+              difficulty="easy"
+            >
               <Game />
             </GameProvider>
           }
@@ -21,7 +27,13 @@ function App() {
         <Route
           path="/game/medium"
           element={
-            <GameProvider key="medium" size={16} mines={40} difficulty="medium">
+            <GameProvider
+              key="medium"
+              rows={16}
+              cols={16}
+              mines={40}
+              difficulty="medium"
+            >
               <Game />
             </GameProvider>
           }
@@ -29,7 +41,13 @@ function App() {
         <Route
           path="/game/hard"
           element={
-            <GameProvider key="hard" size={30} mines={99} difficulty="hard">
+            <GameProvider
+              key="hard"
+              rows={30}
+              cols={16}
+              mines={99}
+              difficulty="hard"
+            >
               <Game />
             </GameProvider>
           }

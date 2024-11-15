@@ -2,8 +2,8 @@ import React, { createContext, useState } from "react";
 
 export const GameContext = createContext();
 
-export const GameProvider = ({ children, size, mines, difficulty }) => {
-  const [board, setBoard] = useState(createBoard(size, size, mines));
+export const GameProvider = ({ children, rows, cols, mines, difficulty }) => {
+  const [board, setBoard] = useState(createBoard(rows, cols, mines));
   const [gameOver, setGameOver] = useState(false);
   const [gameWon, setGameWon] = useState(false);
   const [firstClick, setFirstClick] = useState(true);
@@ -85,7 +85,7 @@ export const GameProvider = ({ children, size, mines, difficulty }) => {
   };
 
   const resetGame = () => {
-    setBoard(createBoard(size, size, mines));
+    setBoard(createBoard(rows, cols, mines));
     setGameOver(false);
     setGameWon(false);
     setMineCount(mines);
